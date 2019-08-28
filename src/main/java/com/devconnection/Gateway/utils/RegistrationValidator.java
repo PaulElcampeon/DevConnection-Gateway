@@ -24,8 +24,8 @@ public class RegistrationValidator {
     public boolean validate(RegistrationMessage registrationMessage, HttpServletResponse response) throws IOException {
         if (checkEmptyFields(registrationMessage)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Cannot have blank fields");
-        } else if (checkIfUsernameExists(registrationMessage.getUsername())) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Username already exists");
+        } else if (checkIfUEmailExists(registrationMessage.getUsername())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Email already exists");
         } else if (checkIfFieldsAreNotEqual(registrationMessage.getPassword(), registrationMessage.getConfirmPassword())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Passwords do not match");
         } else if (checkIfFieldsAreNotEqual(registrationMessage.getUsername(), registrationMessage.getConfirmUsername())) {
@@ -47,12 +47,14 @@ public class RegistrationValidator {
                 registrationMessage.getUsername().length() == 0 ||
                         registrationMessage.getConfirmUsername().length() == 0 ||
                         registrationMessage.getPassword().length() == 0 ||
-                        registrationMessage.getConfirmPassword().length() == 0
+                        registrationMessage.getConfirmPassword().length() == 0 ||
+                        registrationMessage.getEmail().length() == 0 ||
+                        registrationMessage.getConfirmEmail().length() == 0
         );
     }
 
-    private boolean checkIfUsernameExists(String username) {
-        return userService.checkIfUserWithUsernameExists(username);
+    private boolean checkIfUEmailExists(String email) {
+        return userService.checkIfUserWithEmailExists(email);
     }
 
     private boolean checkIfEmailIncludesKeyCharacters(String email) {
