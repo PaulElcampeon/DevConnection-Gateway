@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.devconnection.Gateway.domain.CustomUserDetails;
 import com.devconnection.Gateway.domain.User;
 
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -16,8 +17,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUser(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userService.getUser(email);
         return new CustomUserDetails(user);
     }
 }

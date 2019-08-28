@@ -5,11 +5,11 @@ import com.devconnection.Gateway.messages.RegistrationMessage;
 
 public interface UserService {
 
-    User getUser(String username);
+    User getUser(String email);
 
     void createUser(RegistrationMessage registrationMessage);
 
-    boolean checkIfUserWithUsernameExists(String username);
+    boolean checkIfUserWithEmailExists(String email);
 
     void deleteAll();
 }

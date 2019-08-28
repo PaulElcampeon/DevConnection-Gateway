@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User getUser(String username) {
-        return userRepository.findById(username).orElseThrow(NoSuchElementException::new);
+    public User getUser(String email) {
+        return userRepository.findById(email).orElseThrow(NoSuchElementException::new);
     }
 
     public void createUser(RegistrationMessage registrationMessage) {
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
         userRepository.insert(new User(registrationMessage));
     }
 
-    public boolean checkIfUserWithUsernameExists(String username) {
-        return userRepository.existsById(username);
+    public boolean checkIfUserWithEmailExists(String email) {
+        return userRepository.existsById(email);
     }
 
     public void deleteAll() {
