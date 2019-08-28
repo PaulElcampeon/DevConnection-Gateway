@@ -24,7 +24,7 @@ public class RegistrationValidator {
     public boolean validate(RegistrationMessage registrationMessage, HttpServletResponse response) throws IOException {
         if (checkEmptyFields(registrationMessage)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Cannot have blank fields");
-        } else if (checkIfUEmailExists(registrationMessage.getUsername())) {
+        } else if (checkIfUEmailExists(registrationMessage.getEmail())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Email already exists");
         } else if (checkIfFieldsAreNotEqual(registrationMessage.getPassword(), registrationMessage.getConfirmPassword())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Passwords do not match");
@@ -32,7 +32,7 @@ public class RegistrationValidator {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Usernames do not match");
         } else if (checkIfFieldsAreNotEqual(registrationMessage.getEmail(), registrationMessage.getConfirmEmail())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Emails do not match");
-        } else if (checkIfEmailIncludesKeyCharacters(registrationMessage.getEmail())) {
+        } else if (checkIfEmailDoesNotIncludesKeyCharacters(registrationMessage.getEmail())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Email format is not correct");
         } else if (checkPasswordIsInValid(registrationMessage.getPassword())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Password is not valid");
@@ -57,8 +57,8 @@ public class RegistrationValidator {
         return userService.checkIfUserWithEmailExists(email);
     }
 
-    private boolean checkIfEmailIncludesKeyCharacters(String email) {
-        return email.contains("@") && (StringUtils.countOccurrencesOf(email, ".") > 1);
+    private boolean checkIfEmailDoesNotIncludesKeyCharacters(String email) {
+        return !email.contains("@") || (StringUtils.countOccurrencesOf(email, ".") == 0);
     }
 
     private boolean checkIfFieldsAreNotEqual(String field1, String field2) {

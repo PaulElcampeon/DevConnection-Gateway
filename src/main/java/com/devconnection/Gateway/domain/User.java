@@ -24,6 +24,7 @@ public class User {
     }
 
     public User(RegistrationMessage registrationMessage) {
+        this.email = registrationMessage.getEmail();
         this.username = registrationMessage.getUsername();
         this.password = registrationMessage.getPassword();
     }

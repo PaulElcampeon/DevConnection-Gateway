@@ -44,6 +44,10 @@ public class RegistrationControllerTest {
 
     private String email = "dave@live.co.uk";
 
+    private String differentEmail = "jave@live.co.uk";
+
+    private String incorrectEmail = "jave@livek";
+
     private String username = "user1";
 
     private String emptyUsername = "";
@@ -94,6 +98,15 @@ public class RegistrationControllerTest {
     }
 
     @Test
+    public void registerAccount_invalid_emailsDoNotMatch() throws Exception {
+        RegistrationMessage RegistrationMessage = new RegistrationMessage(username, username, password, password, email, differentEmail);
+
+        attemptAccountRegistrationWithExpectedStatusCodeAndMessage(RegistrationMessage, HttpServletResponse.SC_FORBIDDEN, "Emails do not match");
+
+        VerifyEmailExistsAndValidateCalled(email);
+    }
+
+    @Test
     public void registerAccount_invalid_passwordInvalid() throws Exception {
         RegistrationMessage RegistrationMessage = new RegistrationMessage(username, username, shortPassword, shortPassword, email, email);
 
@@ -106,11 +119,22 @@ public class RegistrationControllerTest {
     public void registerAccount_invalid_EmailAlreadyExists() throws Exception {
         RegistrationMessage RegistrationMessage = new RegistrationMessage(username, username, password, password, email, email);
 
-        when(userService.checkIfUserWithEmailExists(RegistrationMessage.getUsername())).thenReturn(true);
+        when(userService.checkIfUserWithEmailExists(RegistrationMessage.getEmail())).thenReturn(true);
 
         attemptAccountRegistrationWithExpectedStatusCodeAndMessage(RegistrationMessage, HttpServletResponse.SC_FORBIDDEN, "Email already exists");
 
         VerifyEmailExistsAndValidateCalled(email);
+    }
+
+    @Test
+    public void registerAccount_invalid_EmailFormatWrong() throws Exception {
+        RegistrationMessage RegistrationMessage = new RegistrationMessage(username, username, password, password, incorrectEmail, incorrectEmail);
+
+        when(userService.checkIfUserWithEmailExists(RegistrationMessage.getEmail())).thenReturn(false);
+
+        attemptAccountRegistrationWithExpectedStatusCodeAndMessage(RegistrationMessage, HttpServletResponse.SC_FORBIDDEN, "Email format is not correct");
+
+        VerifyEmailExistsAndValidateCalled(incorrectEmail);
     }
 
     private void attemptAccountRegistrationWithExpectedStatusCodeAndMessage(RegistrationMessage RegistrationMessage, int httpStatusCode, String message) throws Exception {

@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             LoginMessage creds = new ObjectMapper().readValue(httpServletRequest.getInputStream(), LoginMessage.class);
             return getAuthenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword(), Collections.emptyList()
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), Collections.emptyList()
                     )
             );
         } catch (IOException e) {
