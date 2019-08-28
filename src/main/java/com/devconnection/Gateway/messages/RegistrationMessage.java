@@ -13,5 +13,7 @@ public class RegistrationMessage {
     private String confirmUsername;
     private String password;
     private String confirmPassword;
+    private String email;
+    private String confirmEmail;
 
 }
