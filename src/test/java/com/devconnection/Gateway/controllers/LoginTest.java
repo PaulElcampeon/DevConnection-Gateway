@@ -1,5 +1,6 @@
-package com.devconnection.Gateway;
+package com.devconnection.Gateway.controllers;
 
+import com.devconnection.Gateway.GatewayApplication;
 import com.devconnection.Gateway.config.SecurityConfig;
 import com.devconnection.Gateway.messages.LoginMessage;
 import com.devconnection.Gateway.messages.RegistrationMessage;

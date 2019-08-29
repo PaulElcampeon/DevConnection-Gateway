@@ -1,4 +1,4 @@
-package com.devconnection.Gateway;
+package com.devconnection.Gateway.controllers;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
