@@ -10,7 +10,7 @@ import com.devconnection.Gateway.domain.CustomUserDetails;
 import com.devconnection.Gateway.domain.User;
 
 
-@Service
+@Service(value = "CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
