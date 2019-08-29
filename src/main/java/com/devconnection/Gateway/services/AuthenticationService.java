@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.devconnection.Gateway.utils.RequestChecker;
+
 public class AuthenticationService {
 
     public static final long EXPIRATIONTIME = 864_000_00; // 1 day in milliseconds
@@ -36,9 +38,15 @@ public class AuthenticationService {
             List<String> authorities = ((List<String>) claims.get("role"));
             List<GrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-            if (user != null)
-                return new UsernamePasswordAuthenticationToken(user, null,
+            if (user != null) {
+                UsernamePasswordAuthenticationToken decodedToken = new UsernamePasswordAuthenticationToken(user, null,
                         grantedAuthorities);
+
+                if (request.getMethod().equalsIgnoreCase("POST") && !request.getServletPath().contains("login") && !request.getServletPath().contains("register")) {
+                    return RequestChecker.isRequestOK(request, decodedToken)? decodedToken : null;
+                }
+                return decodedToken;
+            }
         }
         return null;
     }
