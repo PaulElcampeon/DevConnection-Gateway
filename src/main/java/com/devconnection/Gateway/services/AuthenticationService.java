@@ -42,9 +42,9 @@ public class AuthenticationService {
                 UsernamePasswordAuthenticationToken decodedToken = new UsernamePasswordAuthenticationToken(user, null,
                         grantedAuthorities);
 
-                if (request.getMethod().equalsIgnoreCase("POST") && !request.getServletPath().contains("login") && !request.getServletPath().contains("register")) {
-                    return RequestChecker.isRequestOK(request, decodedToken)? decodedToken : null;
-                }
+//                if (request.getMethod().equalsIgnoreCase("POST") && !request.getServletPath().contains("login") && !request.getServletPath().contains("register")) {
+//                    return RequestChecker.isRequestOK(request, decodedToken)? decodedToken : null;
+//                }
                 return decodedToken;
             }
         }

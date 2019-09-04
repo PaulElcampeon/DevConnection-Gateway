@@ -4,11 +4,10 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.netflix.discovery.DiscoveryClient;
+import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.devconnection.Gateway.messages.CreateProfile;
@@ -43,11 +42,10 @@ public class RegistrationController {
     }
 
     private void createProfile(String email, String username) {
-
-        restTemplate.postForEntity("http://"+profileService+"/profile-service/create", new CreateProfile(email, username), String.class);
+        restTemplate.postForEntity("http://"+profileService+"/create", new CreateProfile(email, username), String.class);
     }
 
     private void createPostBox(String email) {
-        restTemplate.postForEntity("http://"+postBoxService+"/postbox-service/create", new GenericMessage(email), String.class);
+        restTemplate.postForEntity("http://"+postBoxService+"/create", new GenericMessage(email), String.class);
     }
 }
